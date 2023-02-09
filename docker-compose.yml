@@ -1,0 +1,17 @@
+version: '3'
+services:
+  gpt-bot:
+    container_name: gpt-bot
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.services.gpt-bot.loadbalancer.server.port=3000"
+      - "traefik.docker.network=proxy"
+    build: .
+    volumes:
+      - ./.env:/app/.env
+    restart: unless-stopped
+    networks:
+      - proxy
+networks:
+  proxy:
+    external: true
